@@ -1,0 +1,69 @@
+* Search
+[2018-08-11 Sat 20:14]
+
+The process of looking for a sequence of actions that reaches the goal
+is called *search*. A search algorithm takes a problem as input and
+returns a solution in the form of an action sequence.
+
+The process of removing detail from a representation is called
+*abstraction*.
+
+When solving the problem you expand the current state by applying each
+legal action to the current state and generating a new set of
+states. The set of all leaf nodes available for expansion is called
+the frontier (or the open list).
+
+Algorithms that forget their history are doomed to repeat it. It is a
+good idea to extend the searching algorithms with a /visited/
+collection.
+
+Bread first search:
+- All the nodes are epxanded at a given depth in the search tree
+  before any nodes at the next level are expanded.
+- Uses a FIFO queue for the frontier.
+  
+
+
+Depth first search:
+- Always expands the depest node in the current frontier of the search
+  tree.
+- Uses a LIFO queue for the frontier.
+
+
+What are the differences between breadth first search and depth first
+search for the case of inifnite state spaces? Depth first search may
+never find a solution, as it may be exploring a branch where the
+solution isn't present, and since the branch is infinite it will never
+backtrack and begin trying the others. Breadth first search is
+guaranteed to find a solution for inifnite state spaces, albeit at a
+higher cost.
+
+The most widely known form of best-first search is called =A*
+search=. It evaluates nodes by combining $g(n)$, the cost to reach the
+node, and $h(n)$ the cost to get from the node to the goal.
+
+Do not confuse /uninformed search/ and /uniform search/. /uninformed
+search/ are methods that have access only to the problem
+definition. /uniform search/ is one of the /uninformed search methods/
+which expands the node with the lowest path cost.
+
+I was having trouble understanding how we can come up with $h(n)$ for
+the A* algorithm. In the book the example about getting to a city sets
+$h(n)$ to be the straight light distance. Of course, you'll rarely
+have a road that is just a straight line, so this is just an estimate.
+
+I solved the homework about solving the 8th puzzle problem with the
+BFS algorithm. Here are somethings that I learned. Initially I thought
+a state in the problem would be the position of the blank
+square. However a state is a collection of all the states. That's why
+the problem says each state occupies 72 bits in memory. If we consider
+each number represented by a byte (8 bits), and we have 9 numbers per
+state or arrangement the 72 number makes sense (9 * 8). Also, it
+wasn't obvious to me how we should give the answer of the move
+sequence to make to achieve the final state. The algorithm could tell
+me if the final state was reachable or not, but not the steps to take
+to get to it. I ended up adding a dictionary where the keys where the
+states and the values was a string indicating the steps that it took
+to get to that state. And every time I added a new state to the queue
+I simply appended an 'L', 'R', 'U' or 'D' to the step sequence of its
+predecessor state.
